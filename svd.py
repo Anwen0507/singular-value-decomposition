@@ -30,7 +30,7 @@ class SVDAnimation(Scene):
         self.add(vector_space)
 
         # Create the Static Label
-        label = Text("Original Space", font_size=32).to_edge(UP)
+        label = MathTex(r"\text{Original Space}").to_edge(UP)
         label.add_background_rectangle(opacity=0.8)
         
         self.play(Write(label))
@@ -38,7 +38,7 @@ class SVDAnimation(Scene):
 
         # Rotation (V transpose)
         # Update text
-        label_step1 = Text("Step 1: Rotate (V^T)", font_size=32).to_edge(UP)
+        label_step1 = MathTex(r"\text{Step 1: Rotate } (V^T)").to_edge(UP)
         label_step1.add_background_rectangle(opacity=0.8)
         
         self.play(
@@ -50,7 +50,7 @@ class SVDAnimation(Scene):
         self.wait(1)
 
         # Stretch (Sigma)
-        label_step2 = Text("Step 2: Stretch (Sigma)", font_size=32).to_edge(UP)
+        label_step2 = MathTex(r"\text{Step 2: Stretch } (\Sigma)").to_edge(UP)
         label_step2.add_background_rectangle(opacity=0.8)
 
         self.play(
@@ -61,7 +61,7 @@ class SVDAnimation(Scene):
         self.wait(1)
 
         # Rotation (U)
-        label_step3 = Text("Step 3: Rotate (U)", font_size=32).to_edge(UP)
+        label_step3 = MathTex(r"\text{Step 3: Rotate } (U)").to_edge(UP)
         label_step3.add_background_rectangle(opacity=0.8)
 
         self.play(
@@ -71,8 +71,18 @@ class SVDAnimation(Scene):
         )
         self.wait(1)
 
-        # Final cleanup
-        final_label = Text("Final Result (A)", font_size=32).to_edge(UP)
-        final_label.add_background_rectangle(opacity=0.8)
-        self.play(ReplacementTransform(label_step3, final_label))
+        a_text = MathTex("A = ")
+        
+        # Create the Matrix visual
+        # num_decimal_places=0 will show integers instead of floats
+        matrix_visual = DecimalMatrix(A, num_decimal_places=0, include_background_rectangle=False)
+        matrix_visual.set_color(WHITE)
+
+        # Group them together side-by-side
+        final_group = VGroup(a_text, matrix_visual).arrange(RIGHT)
+        final_group.to_edge(UP)
+        
+        # Add background to the whole group so grid lines don't show through the numbers
+        final_group.add_background_rectangle(opacity=0.8)
+        self.play(ReplacementTransform(label_step3, final_group))
         self.wait(1)
