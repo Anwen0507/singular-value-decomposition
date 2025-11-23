@@ -75,7 +75,11 @@ class SVDAnimation(Scene):
         
         # Create the Matrix visual
         # num_decimal_places=0 will show integers instead of floats
-        matrix_visual = DecimalMatrix(A, num_decimal_places=0, include_background_rectangle=False)
+        matrix_visual = DecimalMatrix(
+            A,
+            element_to_mobject_config={"num_decimal_places": 0},
+            include_background_rectangle=False
+        )
         matrix_visual.set_color(WHITE)
 
         # Group them together side-by-side
@@ -83,6 +87,6 @@ class SVDAnimation(Scene):
         final_group.to_edge(UP)
         
         # Add background to the whole group so grid lines don't show through the numbers
-        final_group.add_background_rectangle(opacity=0.8)
+        # final_group.add_background_rectangle(opacity=0.8)
         self.play(ReplacementTransform(label_step3, final_group))
         self.wait(1)
